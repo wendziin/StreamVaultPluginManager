@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="StreamVault Cast Proxy"
+        android:theme="@style/Theme.AppCompat.NoActionBar">
+
+        <!-- Configuração/Status Activity -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:label="StreamVault Cast Proxy"
+            android:theme="@style/Theme.AppCompat.Dialog">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.wendziin.streamvault.castplugin.CONFIGURE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!-- Serviço IPC para StreamVault -->
+        <service
+            android:name=".StreamVaultPluginService"
+            android:exported="true"
+            android:process=":plugin_api">
+            <intent-filter>
+                <action android:name="com.streamvault.plugin.API" />
+            </intent-filter>
+
+            <!-- Metadados de Fallback para o StreamVault -->
+            <meta-data
+                android:name="com.streamvault.plugin.MANIFEST_JSON"
+                android:value='{"schemaVersion":1,"id":"com.wendziin.streamvault.castplugin","name":"StreamVault Cast Proxy","versionName":"1.0.0","versionCode":1,"description":"Reescreve e faz proxy de links de filmes/séries para reproduzir via Google Cast.","providerName":"Cast Proxy","configurationMode":"activity","configurationActivityAction":"com.wendziin.streamvault.castplugin.CONFIGURE","capabilities":["cast.rewriteUrl","configuration.activity"]}' />
+        </service>
+
+    </application>
+
+</manifest>
